@@ -3,26 +3,26 @@ export class Automovil {
     static forEach(a: (Automovil: { Identificador: any }) => void) {
         throw new Error('error')
     }
+    private gasto : number
     private identificador : any
-    private consumo : number
     private gasolina: number 
-    private encendido : boolean //lo ponemos como un dato booleano ya que puede estar encendido o apagado (false, true)
-    private velocidad : number
+    private speed : number
+    private encendido : boolean
 
     constructor (identificador:any, consumo:number, gasolina:number){
         this.identificador = identificador
-        this.consumo = consumo
+        this.gasto = consumo
         this.gasolina = gasolina
-        this.encendido = false //lo inicializamos en false 
-        this.velocidad = 0
+        this.encendido = false 
+        this.speed = 0
+    }
+
+    get Consumo(){
+        return this.gasto
     }
 
     get Identificador(){
         return this.identificador
-    }
-
-    get Consumo(){
-        return this.consumo
     }
 
     get Encendido(){
@@ -34,7 +34,7 @@ export class Automovil {
 
     set Gasolina(c:number){
         if(this.gasolina <= 0){
-            throw 'ERROR deposito sin gasolina'
+            throw 'EL COCHE NO TIENE GASOLINA'
         }
         this.gasolina=c
     }
@@ -42,8 +42,8 @@ export class Automovil {
         if(this.Encendido==false){
             this.encendido=true
         }else{
-            if (this.velocidad!=0){
-                throw 'ERROR primero debe parar el vehiculo para apagarlo'
+            if (this.speed!=0){
+                throw 'EL VEHICULO SIGUE EN MARCHA NO SE PUEDE APAGAR'
             } else {
                 this.encendido=false
             }
@@ -51,28 +51,27 @@ export class Automovil {
     }
 
     get Velocidad(){
-        return this.velocidad
+        return this.speed
     }
 
-    //comprobacion en el caso 3 del menu 2 si el coche esta arrancado o no para cambiar la velocidad
     set Velocidad(num:number){
         if(this.encendido==false){
-            throw 'ERROR, no puedes cambiar la velocidad si el vehiculo esta parado, por favor arranque el vehiculo para cambiarla'
+            throw 'CON EL COCHE APAGADO NO PODEMOS CAMBIAR LA VELOCIDAD, POR FAVOR ARRANCALO'
         } else {
-            this.velocidad=num
+            this.speed=num
         }
     }
-    //comprobacion del consumo del vehiculo
+
     consumido(t:number){ 
-        if(!this.encendido || this.velocidad==0){
-            throw 'ERROR, no puedes calcular el consumo de un vehiculo parado, por favor arranque el vehiculo para cambiarlo'
+        if(!this.encendido || this.speed==0){
+            throw 'NO HAY CONSUMO DISPONIBLE MIENTRAS EL COCHE ESTÉ APAGADO'
         } else {
-            return (this.velocidad/t)*(this.consumo/100)
+            return (this.speed/t)*(this.gasto/100)
         }
     }
-    //imprimir la informacion del vehiculo
+
     imprimir(){
-        return `El vehiculo con identificador ${this.identificador} va a ${this.velocidad} km/h y consume ${this.consumo} L de gasolina cada 100 km`
+        return `EL COCHE ${this.identificador} TIENE UNA VELOCIDAD DE  ${this.speed} KM/H Y ESTÁ GASTANDO ${this.gasto} LITROS DE GASOLINA`
     }
 
 }

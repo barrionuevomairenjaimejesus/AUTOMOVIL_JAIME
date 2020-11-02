@@ -1,26 +1,20 @@
 import { Automovil} from './clases/automovil'
-import { menu, menu2 } from './views/menu'
+import { menu1, menu2 } from './views/menu'
 import { leerTeclado } from './views/entradaTeclado'
 
-
-
-
 const main = async() => {
-    //creamos un array para almacenar los coches que se vayan creando y le pasamos la clase de automovil
     let coches: Array<Automovil> = new Array()
     let n: number 
     do {
-        n = await menu()
+        n = await menu1()
         switch(n){
-            case 1://crear un nuevo vehiculo, para poder almacenar varios necesitamos algo que los identifique ya sea un numero o la matricula
-                console.log('Ha seleccionado crear un nuevo vehiculo')
+            case 1:
+                console.log('COMPREMOS UN NUEVO COCHE... ')
                 let identificador:number , consumo:number, gasolina:number
-                //aqui realizamos un try catch para comprobar que el identificador que se ha introducido no existe y si existe reportar el error al usuario
                 try {
-                    identificador = parseInt(await leerTeclado('Por favor introduzca un identificador para el vehiculo'))
-                    //usamos parseFloat en lugar de parseInt para el consumo, para poder introducir decimales 
-                    consumo = parseFloat( await leerTeclado('Introduzca el consumo del vehiculo por cada 100km'))
-                    gasolina = parseFloat(await leerTeclado('Introduzca la cantidad de gasolina que tienee l coche'))
+                    consumo = parseFloat( await leerTeclado('CONSUMO POR 100 KM... '))
+                    identificador = parseInt(await leerTeclado('IDENTIFICADOR DEL COCHE... '))
+                    gasolina = parseFloat(await leerTeclado('GASOLINA DE COCHE... '))
                     let coche=new Automovil(identificador, consumo, gasolina)
                     let existe = false
                     coches.forEach(Coche => {
@@ -29,7 +23,7 @@ const main = async() => {
                         }
                     })
                     if (existe){
-                        console.log('El vehiculo introducido ya existe, por favor introduzca un vehiculo nuevo')
+                        console.log('ESE COCHE YA LO TENEMOS NECESITAMOS OTRA OPCIÓN... ')
                     } else{
                         coches.push(coche)
                     }
@@ -37,31 +31,29 @@ const main = async() => {
                     console.log(error)
                 }
                 break
-            case 2:// ver lista de vehiculos
+            case 2:
                 if (coches.length==0){
-                    console.log('No existen vehiculos creados, por favor vaya a la opcion 1 y cree un vehiculo')
+                    console.log('NO TENEMOS COCHES, COMPREMOS UNO... ')
                 } else {
-                    console.log('Ha seleccionado mostrar la lista de vehiculos')
+                    console.log('VEAMOS NUESTROS COCHES... ')
                     coches.forEach(Coche => {
                         console.log(`${Coche.imprimir()}`)
                     })
                 }
                 break
-            case 3://eliminar vehiculo
-                //primero comprobamos que ya se haya creado algun vehiculo en caso negativo reportamos el error al usuario
-                console.log('Ha seleccionado eliminar un vehiculo')
+            case 3:
+                console.log('HORA DE VENCER UN COCHE... ')
                 if (coches.length==0){
-                    console.log('No existen vehiculos creados, por favor vaya a la opcion 1 y cree un vehiculo')
-                } else { //en caso de que existan vehiculos creados le pedimos que seleccione el que desea eliminar
-                    console.log('Estos son los vehiculos creados')
+                    console.log('NO TENEMOS COCHES, COMPREMOS UNO... ')
+                } else {
+                    console.log('COCHES EXISTENTES... ')
                     coches.forEach(Coche => {
                         console.log(`${Coche.imprimir()}`)
                     })
                     let ide1:number
-                    ide1= parseInt(await leerTeclado('Por favor introduzca el identificador del vehiculo que desea eliminar'))
+                    ide1= parseInt(await leerTeclado('DIME EL ID DEL QUE QUIERES VENDER... '))
                     let existe:boolean=false
                     let index=0
-                    //por cada coche cuyo identificador coincida con el que se desea eliminar quitarlo de la lista
                     coches.forEach(Coche => {
                         if (ide1==Coche.Identificador){
                             index=coches.indexOf(Coche)
@@ -71,91 +63,90 @@ const main = async() => {
                     if (existe){
                        coches.splice(index,1)
                     } else {
-                        console.log('No existe el vehiculo que desea eliminar, por favor introduzca un vehiculo existente')
+                        console.log('ESE ID NO LO TENEMOS REGISTRADO, NO TENEMOS ESE COCHE')
                     }
                 }
                 break
-            case 4://elegir un coche para modificar los datos
+            case 4:
                 if (coches.length==0){
-                    console.log('No existen vehiculos creados, porfavor vaya a la opcion 1 y cree un vehiculo ')
+                    console.log('NO TENEMOS COCHES, COMPREMOS UNO... ')
                 } else {
                     let ide:number
-                    console.log('Por favor, seleccione el identificador de un vehiculo para modificarlo')
+                    console.log('DIME EL ID DEL QUE QUIERES MODIFICAR... ')
                     coches.forEach(Coche => {
                         console.log(`${Coche.imprimir()}`)
                     })
-                    ide= parseInt(await leerTeclado('Introduzca el identificador del vehivulo'))
+                    ide= parseInt(await leerTeclado('DIME EL ID DEL COCHE... '))
                     let index:number=-1
                     coches.forEach(Coche => {
                         if(Coche.Identificador==ide){
                            index=coches.indexOf(Coche)
                         }
                     })
-                    //cuando seleccione la opcion de modificar un vehiculo pasamos al menu 2
                     if(index!=-1){
                         let n2:number
                         let sCoche=coches[index]
                         do {
                             n2 = await menu2()
                             switch(n2){
-                                case 1: // ver vehiculo elegido
-                                    console.log('Mostrando el vehiculo elegido')
+                                case 1:
+                                    console.log('ENSEÑANDO COCHE... ')
                                     console.log(sCoche.imprimir())
                                     break
-                                case 2: //arrancar o parar el coche
+                                case 2:
                                     if(sCoche.Encendido){
                                         try {
                                             sCoche.cArrancado()
-                                            console.log('Apagando vehiculo')
+                                            console.log('APAGANDO... ')
                                         } catch (error) {
                                             console.log(error)
                                         }
                                     }else{
-                                        console.log('Arrancando vehiculo')
+                                        console.log('ARRANCANDO')
                                         sCoche.cArrancado()
                                     }
                                     break
-                                case 3: // cambiar la velocidad del coche
+                                case 3:
                                     let vel:number
-                                    vel=parseInt(await leerTeclado("Ha seleccionado cambiar la velocidad del vehiculo, por favor, introduzca la nueva velocidad del vehículo"))
+                                    vel=parseInt(await leerTeclado("VAMOS A CAMBIAR LA VELOCIDAD, ¿CUÁL TENEMOS AHORA MISMO?"))
                                     try {
                                       sCoche.Velocidad=vel 
                                     } catch (error) {
                                         console.log(error)
                                     }
                                     break
-                                case 4://calcular el consumo del coche
+                                case 4:
                                     let tiempo:number
                                     try {
-                                        tiempo=parseInt(await leerTeclado("Introduzca el tiempo en horas que lleva el vehiculo a la velocidad actual, para calcular el consumo"))
-                                        console.log(`El vehiculo ha consumido ${sCoche.consumido(tiempo)} litros de gasolina`)
+                                        tiempo=parseInt(await leerTeclado("DIME EL TIEMPO QUE HEMOS TENIDO EL COCHE A ESA VELOCIDAD..."))
+                                        console.log(`POR LO TANTO HEMOS GASTADO: ${sCoche.consumido(tiempo)} LITROS`)
                                     } catch (error) {
                                         console.log(error)
                                     }
                                     break
-                                case 5://poner gasolina
+                                case 5:
                                     let cantidad: number
-                                    cantidad=parseFloat(await leerTeclado('Ha seleccionado poner gasolina, por favor introduzca la cantidad de gasolina del vehiculo'))
+                                    cantidad=parseFloat(await leerTeclado('VAMOS A METER GASOLINA, ¿CUÁNTOS LITROS VAN A SER?'))
                                     sCoche.Gasolina=cantidad
                                     break
                                 case 0:
-                                    console.log('\nVolviendo al menu principal')
+                                    console.log('\nVOLVIENDO... MENÚ PRINCIPAL...')
                                     break
                                 default:
-                                    console.log("Opción incorrecta")
+                                    console.log("ALGO NO HA FUNCIONADO... OPCIÓN NO VALIDA")
                                     break
                             }
                         } while (n2!=0);
                     } else{
-                        console.log('Este vehiculo no existe')
+                        console.log('NO TENEMOS ESE COCHE')
                     }
                 }
                 break
             case 0:
-                console.log('\nSaliendo')
+                console.log('\nSALIENDO... ')
                 break
             default:
-                console.log("Opción incorrecta")
+                console.log("ALGO NO HA FUNCIONADO... OPCIÓN NO VALIDA")
                 break
         }
     } while (n!=0);

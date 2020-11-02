@@ -1,7 +1,7 @@
-# Proyecto Automovil
+**COCHE E INFORMACIÓN** 
 
-Hemos utilizado los metodos try catch y throw para realizar el control de errores de la aplicación.
+--> Tenemos que tener en cuenta la finalidad de este ejercicio y es que vamos a realizar un control de errores y para esto vamos a usar nuevos operadores. 
 
-La declaración **try...catch**  las instrucciones a intentar en el **try**, y especifica una respuesta si se produce una excepción **catch**.
+-->Las instrucciones del operador try...catch son simples, con la parte del try vamos a definir una función y la operación a realizar en nuestro programa ahora bien, si este da un error este será recogido por la otra parte del operador catch. Aprovecho para decir también que una parte depende de la otra, por lo que si usamos el try este necesitará de un catch.
 
-Un bloque **catch** contiene sentencias que especifican que hacer si una excepción es lanzada en el bloque **try**. Si cualquier sentencia dentro del bloque try (o en una funcion llamada desde dentro del bloque try) lanza una excepción, el control cambia inmediatamente al bloque catch . Si no se lanza ninguna excepcion en el bloque try, el bloque catch se omite.
+Por lo tanto vemos que la funcionalidad no es del todo compleja, ya que lo que tendremos  en cuenta es que la parte del catch va a ser la parte en la que hagamos unas instrucciones segundarias pero solo en caso de fallo en el try, con esto quiero decir que si la parte del operador try nos da un resultado positivo no necesitaremos entrar en la opción del catch por lo que esta queda omitida. Yo en mi caso personal lo veo como un if...else ya que el else no se realizará a menos que salga la excepción en el if.
